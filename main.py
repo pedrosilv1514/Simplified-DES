@@ -95,49 +95,43 @@ class SDES:
 class SDESInterface:
     def __init__(self, root):
         self.root = root
-        self.root.title("S-DES Encryption/Decryption")
+        self.root.title("S-DES")
         self.root.geometry("500x400")
         
         # Criar frames
-        input_frame = ttk.LabelFrame(root, text="Input", padding="10")
+        input_frame = ttk.LabelFrame(root, text="Entradas", padding="10")
         input_frame.pack(fill="x", padx=10, pady=5)
         
-        result_frame = ttk.LabelFrame(root, text="Result", padding="10")
+        result_frame = ttk.LabelFrame(root, text="Resultado", padding="10")
         result_frame.pack(fill="x", padx=10, pady=5)
         
-        # Input fields
+        # Entradas
         ttk.Label(input_frame, text="Bitstring (8 bits):").grid(row=0, column=0, sticky="w")
         self.bitstring_entry = ttk.Entry(input_frame)
         self.bitstring_entry.grid(row=0, column=1, padx=5, pady=5, sticky="we")
-        self.bitstring_entry.insert(0, "01110010")
+        self.bitstring_entry.insert(0, "")
         
         ttk.Label(input_frame, text="Key (10 bits):").grid(row=1, column=0, sticky="w")
         self.key_entry = ttk.Entry(input_frame)
         self.key_entry.grid(row=1, column=1, padx=5, pady=5, sticky="we")
-        self.key_entry.insert(0, "1010000010")
+        self.key_entry.insert(0, "")
         
-        # Operation selection
+        # Selecoes
         self.operation = tk.StringVar(value="encrypt")
-        ttk.Radiobutton(input_frame, text="Encrypt", variable=self.operation, 
+        ttk.Radiobutton(input_frame, text="Encriptar", variable=self.operation, 
                        value="encrypt").grid(row=2, column=0)
-        ttk.Radiobutton(input_frame, text="Decrypt", variable=self.operation, 
+        ttk.Radiobutton(input_frame, text="Decriptar", variable=self.operation, 
                        value="decrypt").grid(row=2, column=1)
-        
-        # Process button
-        ttk.Button(input_frame, text="Process", command=self.process).grid(row=3, 
+        ttk.Button(input_frame, text="Iniciar", command=self.process).grid(row=3, 
                   column=0, columnspan=2, pady=10)
         
-        # Result field
-        ttk.Label(result_frame, text="Result:").grid(row=0, column=0, sticky="w")
+        # Resultado
+        ttk.Label(result_frame, text="Resultado:").grid(row=0, column=0, sticky="w")
         self.result_entry = ttk.Entry(result_frame, state='readonly')
         self.result_entry.grid(row=0, column=1, padx=5, pady=5, sticky="we")
-        
-        # Configure grid
         input_frame.columnconfigure(1, weight=1)
         result_frame.columnconfigure(1, weight=1)
-        
-        # Adicionar campo para mostrar verificação
-        verify_frame = ttk.LabelFrame(root, text="Verification", padding="10")
+        verify_frame = ttk.LabelFrame(root, text="Verificando", padding="10")
         verify_frame.pack(fill="x", padx=10, pady=5)
         self.verify_text = tk.Text(verify_frame, height=4, width=50)
         self.verify_text.pack(fill="both", expand=True)
@@ -145,27 +139,18 @@ class SDESInterface:
     def process(self):
         bitstring = self.bitstring_entry.get().strip()
         key = self.key_entry.get().strip()
-        
-        # Converter strings para listas de inteiros
         bitstring_list = [int(bit) for bit in bitstring]
         key_list = [int(bit) for bit in key]
         
         try:
-            # Usar exatamente o mesmo processo do código original
             sdes = SDES(key_list)
-            
-            # Primeiro, fazer a encriptação
             ciphertext = sdes.encrypt_block(bitstring_list)
-            # Depois, fazer a decriptação do resultado
             decrypted = sdes.decrypt_block(ciphertext)
-            
-            # Mostrar resultados de verificação
             self.verify_text.delete(1.0, tk.END)
             self.verify_text.insert(tk.END, f"Original: {bitstring}\n")
-            self.verify_text.insert(tk.END, f"Encrypted: {''.join(str(b) for b in ciphertext)}\n")
-            self.verify_text.insert(tk.END, f"Decrypted: {''.join(str(b) for b in decrypted)}\n")
-            
-            # Mostrar o resultado solicitado
+            self.verify_text.insert(tk.END, f"Encriptado: {''.join(str(b) for b in ciphertext)}\n")
+            self.verify_text.insert(tk.END, f"Decriptado: {''.join(str(b) for b in decrypted)}\n")
+
             if self.operation.get() == "encrypt":
                 result = ciphertext
             else:
