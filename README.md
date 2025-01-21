@@ -1,5 +1,12 @@
 # Criptografia/Descriptografia S-DES em Python
 
+<div align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=for-the-badge">
+</div>
+
+<div align="center">
+    <img alt="Tamanho do código do projeto" src="https://img.shields.io/github/languages/code-size/DPAgro-MRE/conversor-de-telegramas" />
+</div>
 
 ## Visão Geral
 Este projeto implementa o Simplified Data Encryption Standard (S-DES) em Python, uma versão simplificada do algoritmo DES. Ele demonstra conceitos básicos de criptografia, incluindo geração de chaves, criptografia e descriptografia de texto de 8 bits usando uma chave de 10 bits.
