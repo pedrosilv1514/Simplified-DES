@@ -54,14 +54,14 @@ class SDES:
         permuted = self.permute(block, IP)
         left, right = permuted[:4], permuted[4:]
 
-        # Round 1
+        # Rodada 1
         f_output = self.f(right, self.K1)
         left = [l ^ f for l, f in zip(left, f_output)]
 
-        # Swap
+        # Troca
         left, right = right, left
 
-        # Round 2
+        # Rodada 2
         f_output = self.f(right, self.K2)
         left = [l ^ f for l, f in zip(left, f_output)]
 
